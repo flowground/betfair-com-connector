@@ -1,0 +1,296 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "authentication": {
+                    "type": "object",
+                    "allOf": [
+                        {
+                            "type": "object",
+                            "discriminator": {
+                                "propertyName": "op"
+                            },
+                            "properties": {
+                                "id": {
+                                    "description": "Client generated unique id to link request with response (like json rpc)",
+                                    "format": "int32",
+                                    "type": "integer"
+                                },
+                                "op": {
+                                    "description": "The operation type",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "appKey": {
+                                    "type": "string"
+                                },
+                                "session": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                },
+                "heartbeat": {
+                    "type": "object",
+                    "allOf": [
+                        {
+                            "type": "object",
+                            "discriminator": {
+                                "propertyName": "op"
+                            },
+                            "properties": {
+                                "id": {
+                                    "description": "Client generated unique id to link request with response (like json rpc)",
+                                    "format": "int32",
+                                    "type": "integer"
+                                },
+                                "op": {
+                                    "description": "The operation type",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                },
+                "marketSubscription": {
+                    "type": "object",
+                    "allOf": [
+                        {
+                            "type": "object",
+                            "discriminator": {
+                                "propertyName": "op"
+                            },
+                            "properties": {
+                                "id": {
+                                    "description": "Client generated unique id to link request with response (like json rpc)",
+                                    "format": "int32",
+                                    "type": "integer"
+                                },
+                                "op": {
+                                    "description": "The operation type",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "clk": {
+                                    "description": "Token value delta (received in MarketChangeMessage) that should be passed to resume a subscription",
+                                    "type": "string"
+                                },
+                                "conflateMs": {
+                                    "description": "Conflate Milliseconds - the conflation rate (looped back on initial image after validation: bounds are 0 to 120000)",
+                                    "format": "int64",
+                                    "type": "integer"
+                                },
+                                "heartbeatMs": {
+                                    "description": "Heartbeat Milliseconds - the heartbeat rate (looped back on initial image after validation: bounds are 500 to 5000)",
+                                    "format": "int64",
+                                    "type": "integer"
+                                },
+                                "initialClk": {
+                                    "description": "Token value (received in initial MarketChangeMessage) that should be passed to resume a subscription",
+                                    "type": "string"
+                                },
+                                "marketDataFilter": {
+                                    "type": "object",
+                                    "properties": {
+                                        "fields": {
+                                            "items": {
+                                                "enum": [
+                                                    "EX_BEST_OFFERS_DISP",
+                                                    "EX_BEST_OFFERS",
+                                                    "EX_ALL_OFFERS",
+                                                    "EX_TRADED",
+                                                    "EX_TRADED_VOL",
+                                                    "EX_LTP",
+                                                    "EX_MARKET_DEF",
+                                                    "SP_TRADED",
+                                                    "SP_PROJECTED"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "ladderLevels": {
+                                            "format": "int32",
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "marketFilter": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bettingTypes": {
+                                            "items": {
+                                                "enum": [
+                                                    "ODDS",
+                                                    "LINE",
+                                                    "RANGE",
+                                                    "ASIAN_HANDICAP_DOUBLE_LINE",
+                                                    "ASIAN_HANDICAP_SINGLE_LINE"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "bspMarket": {
+                                            "type": "boolean"
+                                        },
+                                        "countryCodes": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "eventIds": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "eventTypeIds": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "marketIds": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "marketTypes": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "raceTypes": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "turnInPlayEnabled": {
+                                            "type": "boolean"
+                                        },
+                                        "venues": {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        }
+                                    }
+                                },
+                                "segmentationEnabled": {
+                                    "description": "Segmentation Enabled - allow the server to send large sets of data in segments, instead of a single block",
+                                    "type": "boolean"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                },
+                "opTypes": {
+                    "enum": [
+                        "heartbeat",
+                        "authentication",
+                        "marketSubscription",
+                        "orderSubscription"
+                    ],
+                    "type": "string"
+                },
+                "orderSubscriptionMessage": {
+                    "type": "object",
+                    "allOf": [
+                        {
+                            "type": "object",
+                            "discriminator": {
+                                "propertyName": "op"
+                            },
+                            "properties": {
+                                "id": {
+                                    "description": "Client generated unique id to link request with response (like json rpc)",
+                                    "format": "int32",
+                                    "type": "integer"
+                                },
+                                "op": {
+                                    "description": "The operation type",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "clk": {
+                                    "description": "Token value delta (received in MarketChangeMessage) that should be passed to resume a subscription",
+                                    "type": "string"
+                                },
+                                "conflateMs": {
+                                    "description": "Conflate Milliseconds - the conflation rate (looped back on initial image after validation: bounds are 0 to 120000)",
+                                    "format": "int64",
+                                    "type": "integer"
+                                },
+                                "heartbeatMs": {
+                                    "description": "Heartbeat Milliseconds - the heartbeat rate (looped back on initial image after validation: bounds are 500 to 5000)",
+                                    "format": "int64",
+                                    "type": "integer"
+                                },
+                                "initialClk": {
+                                    "description": "Token value (received in initial MarketChangeMessage) that should be passed to resume a subscription",
+                                    "type": "string"
+                                },
+                                "orderFilter": {
+                                    "description": "Optional filter applied to order subscription",
+                                    "type": "object",
+                                    "properties": {
+                                        "accountIds": {
+                                            "description": "Internal use only & should not be set on your filter (your subscription is already locked to your account). If set subscription will fail.",
+                                            "items": {
+                                                "format": "int64",
+                                                "type": "integer"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "customerStrategyRefs": {
+                                            "description": "Restricts to specified customerStrategyRefs; this will filter orders and StrategyMatchChanges accordingly (Note: overall postition is not filtered)",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        "includeOverallPosition": {
+                                            "description": "Returns overall / net position (See: OrderRunnerChange.mb / OrderRunnerChange.ml). Default=true",
+                                            "type": "boolean"
+                                        },
+                                        "partitionMatchedByStrategyRef": {
+                                            "description": "Returns strategy positions (See: OrderRunnerChange.smc=Map<customerStrategyRef, StrategyMatchChange>) - these are sent in delta format as per overall position. Default=false",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "segmentationEnabled": {
+                                    "description": "Segmentation Enabled - allow the server to send large sets of data in segments, instead of a single block",
+                                    "type": "boolean"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        }
+    }
+}

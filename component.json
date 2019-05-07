@@ -1,0 +1,51 @@
+{
+    "title": "Betfair: Exchange Streaming",
+    "description": "API to receive streamed updates. This is an ssl socket connection of CRLF delimited json messages (see RequestMessage & ResponseMessage)",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/betfair.com/1.0.1423/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "http://stream-api.betfair.com:443/api",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "post_request": {
+            "main": "./lib/actions/post_request.js",
+            "title": "This is a socket protocol delimited by CRLF (not http)",
+            "description": "This is a socket protocol delimited by CRLF (not http)",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_request.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}
